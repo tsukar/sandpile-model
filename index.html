@@ -86,7 +86,13 @@
     renderer.setSize( fieldWidth, fieldHeight );
     field.appendChild( renderer.domElement );
 
-    var material = new THREE.MeshLambertMaterial( { color: 0x00ff00 } );
+    var materials = [
+      new THREE.MeshLambertMaterial( { color: 0xffffb2 } ),
+      new THREE.MeshLambertMaterial( { color: 0xfecc5c } ),
+      new THREE.MeshLambertMaterial( { color: 0xfd8d3c } ),
+      new THREE.MeshLambertMaterial( { color: 0xf03b20 } ),
+      new THREE.MeshLambertMaterial( { color: 0xbd0026 } ),
+    ];
     var spotLight = new THREE.SpotLight( 0xffffff );
     spotLight.position.set( 15, 15, 25 );
 
@@ -97,6 +103,7 @@
       for (var i = 0; i < gridSize; i++) {
         for (var j = 0; j < gridSize; j++) {
           var geometry = new THREE.BoxGeometry( 2, 2, grid[i][j] * 2 );
+          var material = materials[Math.min(grid[i][j], 4)];
           var cube = new THREE.Mesh( geometry, material );
 
           cube.position.x = i * 2 - gridSize;
