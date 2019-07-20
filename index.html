@@ -26,7 +26,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/106/three.min.js"></script>
   <script>
     var grid;
-    var gridSize = 20;
+    var gridSize = 10;
     var histogram = {};
     var frameCount = 0;
     var magnitude = 0;
@@ -77,20 +77,33 @@
     var field = document.getElementById( "field" );
     var fieldWidth = field.clientWidth;
     var fieldHeight = field.clientHeight;
+    var scene;
 
-    var scene = new THREE.Scene();
     var camera = new THREE.PerspectiveCamera( 75, fieldWidth / fieldHeight, 0.1, 1000 );
 
     var renderer = new THREE.WebGLRenderer();
     renderer.setSize( fieldWidth, fieldHeight );
     field.appendChild( renderer.domElement );
 
-    var geometry = new THREE.BoxGeometry( 1, 1, 1 );
     var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-    var cube = new THREE.Mesh( geometry, material );
-    scene.add( cube );
 
-    camera.position.z = 5;
+    function buildScene() {
+      scene = new THREE.Scene();
+      for (var i = 0; i < gridSize; i++) {
+        for (var j = 0; j < gridSize; j++) {
+          var geometry = new THREE.BoxGeometry( 2, 2, grid[i][j] * 2 );
+          var cube = new THREE.Mesh( geometry, material );
+
+          cube.position.x = i * 2 - gridSize;
+          cube.position.y = j * 2 - gridSize;
+          cube.position.z = grid[i][j];
+
+          scene.add( cube );
+        }
+      }
+    }
+
+    camera.position.z = 100;
 
     initGrid();
     var animate = function () {
@@ -106,9 +119,9 @@
           }
           addSand();
         }
+        buildScene();
+        renderer.render( scene, camera );
       }
-
-      renderer.render( scene, camera );
     };
 
     animate();
