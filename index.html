@@ -109,6 +109,8 @@
     var frameCount = 0;
     var magnitude = 0;
     var grainsCount = 0;
+    var removableMeshes = [];
+    var disposableGeometries = [];
 
     function initGrid() {
       grid = new Array(gridSize);
@@ -160,7 +162,7 @@
     var field = document.getElementById( "field" );
     var fieldWidth = field.clientWidth;
     var fieldHeight = field.clientHeight;
-    var scene;
+    var scene = new THREE.Scene();
 
     var camera = new THREE.PerspectiveCamera( 75, fieldWidth / fieldHeight, 0.1, 1000 );
 
@@ -177,10 +179,10 @@
     ];
     var spotLight = new THREE.SpotLight( 0xffffff );
     spotLight.position.set( 10, 20, 10 );
+    scene.add( spotLight );
 
     function buildScene() {
-      scene = new THREE.Scene();
-      scene.add( spotLight );
+      clearMemory();
 
       var geometries = [
         new THREE.Geometry(),
@@ -199,13 +201,30 @@
           cube.position.z = j * 2 - gridSize;
 
           geometries[Math.min(grid[i][j], 4)].mergeMesh(cube);
+
+          removableMeshes.push(cube);
+          disposableGeometries.push(geometry);
         }
       }
 
       for (var i = 0; i <= 4; i++) {
         var mesh = new THREE.Mesh(geometries[i], materials[i]);
         scene.add(mesh);
+
+        removableMeshes.push(mesh);
+        disposableGeometries.push(geometries[i]);
       }
+    }
+
+    function clearMemory() {
+      for (var i = 0; i < removableMeshes.length; i++) {
+        scene.remove(removableMeshes[i]);
+      }
+      for (var i = 0; i < disposableGeometries.length; i++) {
+        disposableGeometries[i].dispose();
+      }
+      removableMeshes = [];
+      disposableGeometries = [];
     }
 
     camera.position.set( 10, 20, 10 );
@@ -216,7 +235,7 @@
     var animate = function () {
       requestAnimationFrame( animate );
 
-      if (++frameCount % 6 == 0) {
+      if (++frameCount % 2 == 0) {
         if (updateGrid()) {
           magnitude += 1;
         } else {
