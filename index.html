@@ -64,6 +64,7 @@
          .style("font-size", "24px")
          .text("Frequency");
     svg.append("text")
+         .attr("id", "title")
          .attr("x", width / 2)
          .attr("y", 0 - (margin.top / 2))
          .attr("text-anchor", "middle")
@@ -97,6 +98,8 @@
           .attr("cy", function (d) { return y(d.y); } )
           .attr("r", 5)
           .style("fill", "#bd0026");
+
+      d3.select("#title").text(`Power law's plot (${grainsCount} grains dropped)`);
     }
   </script>
   <script>
@@ -105,6 +108,7 @@
     var histogram = {};
     var frameCount = 0;
     var magnitude = 0;
+    var grainsCount = 0;
 
     function initGrid() {
       grid = new Array(gridSize);
@@ -138,6 +142,7 @@
     }
 
     function addSand() {
+      grainsCount++;
       grid[gridSize / 2][gridSize / 2]++;
     }
 
