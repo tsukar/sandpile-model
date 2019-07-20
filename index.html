@@ -21,7 +21,7 @@
       </p>
       <div class="columns">
         <div class="column">
-          <div id="field"></div>
+            <div id="field"></div>
         </div>
         <div class="column">
           <div id="plot"></div>
@@ -33,7 +33,7 @@
   <script src="https://unpkg.com/three@0.106.2/examples/js/controls/OrbitControls.js"></script>
   <script src="https://d3js.org/d3.v4.min.js"></script>
   <script>
-    var margin = {top: 10, right: 30, bottom: 80, left: 80},
+    var margin = {top: 40, right: 30, bottom: 80, left: 80},
         width = 640 - margin.left - margin.right,
         height = 640 - margin.top - margin.bottom;
     var svg = d3.select("#plot")
@@ -51,7 +51,7 @@
               .range([height, 0]);
     svg.append("text")
          .attr("transform",
-               `translate(${width / 2}, ${margin.top + height + margin.bottom / 2})`)
+               `translate(${width / 2}, ${margin.top + height + margin.bottom / 4})`)
          .style("text-anchor", "middle")
          .style("font-size", "24px")
          .text("Magnitude");
@@ -63,6 +63,12 @@
          .style("text-anchor", "middle")
          .style("font-size", "24px")
          .text("Frequency");
+    svg.append("text")
+         .attr("x", width / 2)
+         .attr("y", 0 - (margin.top / 2))
+         .attr("text-anchor", "middle")
+         .style("font-size", "24px")
+         .text("Power law's plot");
 
     function updatePlot(data) {
       svg.selectAll("g").remove();
