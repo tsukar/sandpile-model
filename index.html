@@ -47,7 +47,7 @@
               .domain([0.5, 50])
               .range([0, width]);
     var y = d3.scaleLog()
-              .domain([0.5, 100])
+              .domain([0.5, 200])
               .range([height, 0]);
     svg.append("text")
          .attr("transform",
@@ -79,13 +79,13 @@
            .attr("transform", `translate(0, ${height})`)
            .call(
              d3.axisBottom(x)
-               .tickValues([1, 2, 3, 4, 5, 10, 20])
+               .tickValues([1, 2, 3, 4, 5, 10, 20, 30, 40, 50])
                .tickFormat(d3.format("01d"))
            );
       svg.append("g")
            .call(
              d3.axisLeft(y)
-               .tickValues([1, 2, 3, 4, 5, 10, 20, 30, 40, 50, 100])
+               .tickValues([1, 2, 3, 4, 5, 10, 20, 30, 40, 50, 100, 200])
                .tickFormat(d3.format("01d"))
            );
 
