@@ -6,6 +6,9 @@
     <title>Hello Bulma!</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <style>
+      #field { height: 800px; }
+    </style>
   </head>
   <body>
   <section class="section">
@@ -22,12 +25,16 @@
   </section>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/106/three.min.js"></script>
   <script>
+    var field = document.getElementById( "field" );
+    var fieldWidth = field.clientWidth;
+    var fieldHeight = field.clientHeight;
+
     var scene = new THREE.Scene();
-    var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
+    var camera = new THREE.PerspectiveCamera( 75, fieldWidth / fieldHeight, 0.1, 1000 );
 
     var renderer = new THREE.WebGLRenderer();
-    renderer.setSize( window.innerWidth, window.innerHeight );
-    document.getElementById( "field" ).appendChild( renderer.domElement );
+    renderer.setSize( fieldWidth, fieldHeight );
+    field.appendChild( renderer.domElement );
 
     var geometry = new THREE.BoxGeometry( 1, 1, 1 );
     var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
