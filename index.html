@@ -99,7 +99,7 @@
           .attr("r", 5)
           .style("fill", "#bd0026");
 
-      d3.select("#title").text(`Power law's plot (${grainsCount} grains dropped)`);
+      d3.select("#title").text(`Power law's plot (${d3.format(",")(grainsCount)} grains dropped)`);
     }
   </script>
   <script>
