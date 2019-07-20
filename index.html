@@ -23,7 +23,8 @@
       </div>
     </div>
   </section>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/106/three.min.js"></script>
+  <script src="https://unpkg.com/three@0.106.2/build/three.min.js"></script>
+  <script src="https://unpkg.com/three@0.106.2/examples/js/controls/OrbitControls.js"></script>
   <script>
     var grid;
     var gridSize = 10;
@@ -104,6 +105,7 @@
     }
 
     camera.position.z = 100;
+    const controls = new THREE.OrbitControls(camera);
 
     initGrid();
     var animate = function () {
