@@ -182,18 +182,29 @@
       scene = new THREE.Scene();
       scene.add( spotLight );
 
+      var geometries = [
+        new THREE.Geometry(),
+        new THREE.Geometry(),
+        new THREE.Geometry(),
+        new THREE.Geometry(),
+        new THREE.Geometry()
+      ];
       for (var i = 0; i < gridSize; i++) {
         for (var j = 0; j < gridSize; j++) {
           var geometry = new THREE.BoxGeometry( 2, grid[i][j] * 2, 2 );
-          var material = materials[Math.min(grid[i][j], 4)];
-          var cube = new THREE.Mesh( geometry, material );
+          var cube = new THREE.Mesh( geometry );
 
           cube.position.x = i * 2 - gridSize;
           cube.position.y = grid[i][j];
           cube.position.z = j * 2 - gridSize;
 
-          scene.add( cube );
+          geometries[Math.min(grid[i][j], 4)].mergeMesh(cube);
         }
+      }
+
+      for (var i = 0; i <= 4; i++) {
+        var mesh = new THREE.Mesh(geometries[i], materials[i]);
+        scene.add(mesh);
       }
     }
 
