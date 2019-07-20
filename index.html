@@ -104,7 +104,7 @@
   </script>
   <script>
     var grid;
-    var gridSize = 10;
+    var gridSize = 20;
     var histogram = {};
     var frameCount = 0;
     var magnitude = 0;
@@ -178,7 +178,7 @@
       new THREE.MeshLambertMaterial( { color: 0xbd0026 } ),
     ];
     var spotLight = new THREE.SpotLight( 0xffffff );
-    spotLight.position.set( 10, 20, 10 );
+    spotLight.position.set( 20, 40, 20 );
     scene.add( spotLight );
 
     function buildScene() {
@@ -227,7 +227,7 @@
       disposableGeometries = [];
     }
 
-    camera.position.set( 10, 20, 10 );
+    camera.position.set( 20, 40, 20 );
     camera.lookAt(new THREE.Vector3(0, 0, 0));
     const controls = new THREE.OrbitControls(camera);
 
