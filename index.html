@@ -50,19 +50,19 @@
               .domain([0.5, 100])
               .range([height, 0]);
     svg.append("text")
-       .attr("transform",
-             `translate(${width / 2}, ${margin.top + height + margin.bottom / 2})`)
-       .style("text-anchor", "middle")
-       .style("font-size", "24px")
-       .text("Magnitude");
+         .attr("transform",
+               `translate(${width / 2}, ${margin.top + height + margin.bottom / 2})`)
+         .style("text-anchor", "middle")
+         .style("font-size", "24px")
+         .text("Magnitude");
     svg.append("text")
-       .attr("transform", "rotate(-90)")
-       .attr("y", 0 - margin.left)
-       .attr("x", 0 - (height / 2))
-       .attr("dy", "1em")
-       .style("text-anchor", "middle")
-       .style("font-size", "24px")
-       .text("Frequency");
+         .attr("transform", "rotate(-90)")
+         .attr("y", 0 - margin.left)
+         .attr("x", 0 - (height / 2))
+         .attr("dy", "1em")
+         .style("text-anchor", "middle")
+         .style("font-size", "24px")
+         .text("Frequency");
 
     function updatePlot(data) {
       svg.selectAll("g").remove();
