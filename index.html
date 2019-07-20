@@ -86,10 +86,14 @@
     renderer.setSize( fieldWidth, fieldHeight );
     field.appendChild( renderer.domElement );
 
-    var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+    var material = new THREE.MeshLambertMaterial( { color: 0x00ff00 } );
+    var spotLight = new THREE.SpotLight( 0xffffff );
+    spotLight.position.set( 15, 15, 25 );
 
     function buildScene() {
       scene = new THREE.Scene();
+      scene.add( spotLight );
+
       for (var i = 0; i < gridSize; i++) {
         for (var j = 0; j < gridSize; j++) {
           var geometry = new THREE.BoxGeometry( 2, 2, grid[i][j] * 2 );
