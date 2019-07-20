@@ -8,6 +8,7 @@
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
     <style>
       #field { height: 640px; }
+      .tick line { opacity: 0.2; }
     </style>
   </head>
   <body>
@@ -88,12 +89,14 @@
              d3.axisBottom(x)
                .tickValues([1, 2, 3, 4, 5, 10, 20, 30, 40, 50])
                .tickFormat(d3.format("01d"))
+               .tickSize(-height)
            );
       svg.append("g")
            .call(
              d3.axisLeft(y)
                .tickValues([1, 2, 3, 4, 5, 10, 20, 30, 40, 50, 100, 200])
                .tickFormat(d3.format("01d"))
+               .tickSize(-width)
            );
 
       svg.append("g")
