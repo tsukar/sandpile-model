@@ -15,7 +15,7 @@
     <div class="container">
       <div class="columns">
         <div class="column">
-          First column
+          <div id="plot"></div>
         </div>
         <div class="column">
           <div id="field"></div>
@@ -25,6 +25,46 @@
   </section>
   <script src="https://unpkg.com/three@0.106.2/build/three.min.js"></script>
   <script src="https://unpkg.com/three@0.106.2/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <script>
+    var margin = {top: 10, right: 30, bottom: 30, left: 60},
+        width = 460 - margin.left - margin.right,
+        height = 640 - margin.top - margin.bottom;
+    var svg = d3.select("#plot")
+                .append("svg")
+                  .attr("width", width + margin.left + margin.right)
+                  .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                  .attr("transform",
+                        `translate(${margin.left}, ${margin.top})`);
+    var x = d3.scaleLog()
+              .domain([0.5, 50])
+              .range([0, width]);
+    var y = d3.scaleLog()
+              .domain([0.5, 100])
+              .range([height, 0]);
+
+    function updatePlot(data) {
+      svg.selectAll("g").remove();
+      data = Object.keys(data).map( function (key) { return {x: key, y: data[key]}; } );
+
+      svg.append("g")
+        .attr("transform", `translate(0, ${height})`)
+        .call(d3.axisBottom(x));
+      svg.append("g")
+        .call(d3.axisLeft(y));
+
+      svg.append("g")
+        .selectAll("dot")
+        .data(data)
+        .enter()
+        .append("circle")
+          .attr("cx", function (d) { return x(d.x); } )
+          .attr("cy", function (d) { return y(d.y); } )
+          .attr("r", 5)
+          .style("fill", "#bd0026");
+    }
+  </script>
   <script>
     var grid;
     var gridSize = 10;
@@ -129,6 +169,7 @@
         } else {
           if (magnitude > 0) {
             countFrequency(magnitude);
+            updatePlot(histogram);
             magnitude = 0;
           }
           addSand();
