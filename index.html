@@ -41,6 +41,7 @@
   <script src="https://unpkg.com/three@0.106.2/examples/js/controls/OrbitControls.js"></script>
   <script src="https://d3js.org/d3.v4.min.js"></script>
   <script>
+    // 散布図描画領域を準備
     var margin = {top: 40, right: 30, bottom: 80, left: 80},
         width = 640 - margin.left - margin.right,
         height = 640 - margin.top - margin.bottom;
@@ -79,6 +80,7 @@
          .style("font-size", "24px")
          .text("Power law's plot");
 
+    // ヒストグラムを受け取って散布図の状態を更新する関数
     function updatePlot(data) {
       svg.selectAll("g").remove();
       data = Object.keys(data).map( function (key) { return {x: key, y: data[key]}; } );
@@ -122,6 +124,7 @@
     var removableMeshes = [];
     var disposableGeometries = [];
 
+    // フィールドを初期化する関数
     function initGrid() {
       grid = new Array(gridSize);
       for (var i = 0; i < gridSize; i++) {
@@ -132,16 +135,20 @@
       }
     }
 
+    // 砂山モデルの仮定に従ってフィールドを更新する関数
     function updateGrid() {
       oldGrid = grid;
       var updateFlag = false;
 
       for (var i = 0; i < gridSize; i++) {
         for (var j = 0; j < gridSize; j++) {
+          // 4粒以上積まれているセルは崩壊
           if (oldGrid[i][j] >= 4) {
             updateFlag = true;
 
             grid[i][j] -= 4;
+            // 崩壊したセルの上下左右のセルを1粒ずつインクリメント
+            // 境界は無視
             if (i > 0) { grid[i - 1][j]++; }
             if (j > 0) { grid[i][j - 1]++; }
             if (i < gridSize - 1) { grid[i + 1][j]++; }
@@ -153,14 +160,17 @@
       return updateFlag;
     }
 
+    // 砂粒を1粒落とす関数
     function addSand() {
       grainsCount++;
 
+      // 落とす位置は中心4セルからランダムに選択
       var i = gridSize / 2 - Math.floor(Math.random() * 2);
       var j = gridSize / 2 - Math.floor(Math.random() * 2);
       grid[i][j]++;
     }
 
+    // マグニチュードごとの崩壊の頻度を数える関数
     function countFrequency(key) {
       if (key in histogram) {
         histogram[key]++;
@@ -169,6 +179,7 @@
       }
     }
 
+    // 3Dシミュレーション領域の描画に必要なオブジェクトを用意
     var field = document.getElementById( "field" );
     var fieldWidth = field.clientWidth;
     var fieldHeight = field.clientHeight;
@@ -191,6 +202,7 @@
     spotLight.position.set( 20, 40, 20 );
     scene.add( spotLight );
 
+    // 現在のフィールドの状態から3Dシミュレーションを実行する関数
     function buildScene() {
       clearMemory();
 
@@ -226,6 +238,7 @@
       }
     }
 
+    // 不要になったオブジェクトを解放してメモリをクリアする関数
     function clearMemory() {
       for (var i = 0; i < removableMeshes.length; i++) {
         scene.remove(removableMeshes[i]);
@@ -237,10 +250,12 @@
       disposableGeometries = [];
     }
 
+    // カメラの位置と向きを調整
     camera.position.set( 20, 40, 20 );
     camera.lookAt(new THREE.Vector3(0, 0, 0));
     const controls = new THREE.OrbitControls(camera);
 
+    // アニメーションを開始
     initGrid();
     var animate = function () {
       requestAnimationFrame( animate );
