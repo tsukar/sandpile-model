@@ -4,6 +4,8 @@
 ## 動作方法
 `index.html` を適当なブラウザで開いてください．
 
+[オンライン版](https://tsukar.github.io/sandpile-model/)もあります．
+
 ## 動作確認環境
 
 - Windows 10 / macOS Mojave
